@@ -20,6 +20,7 @@ GPML2Network(
   unconnectedNodes = FALSE,
   alpha = 0.9,
   nodeSize = 1,
+  fontSize = 2,
   legend = FALSE,
   nodeTable = FALSE,
   pathInfo = FALSE,
@@ -78,6 +79,8 @@ Should unconnected (isolated) nodes be shown in the network?}
 \item{alpha}{(optional) Transparency of the nodes.}
 
 \item{nodeSize}{(optional) Size of the nodes.}
+
+\item{fontSize}{(optional) Font size of the text in the nodes.}
 
 \item{legend}{(optional) Logical (TRUE or FALSE).
 Should the legend be plotted?}

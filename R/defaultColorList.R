@@ -56,24 +56,24 @@ defaultColorList <- function(ColorVar, ColorNames = NULL){
             # Divergent color scale
             if ((min(ColorVar[,c], na.rm = TRUE) < 0) &
                 (max(ColorVar[,c], na.rm = TRUE) > 0)){
-                colorList[[c]] <- defaultDivergentScale(ColorVar, c)}
+                colorList[[c]] <- .defaultDivergentScale(ColorVar, c)}
 
             # Sequential color scale
             if ((min(ColorVar[,c], na.rm = TRUE) >= 0) |
                 (max(ColorVar[,c], na.rm = TRUE) <= 0)){
-                colorList[[c]] <- defaultSequentialScale(ColorVar, c)}
+                colorList[[c]] <- .defaultSequentialScale(ColorVar, c)}
         }
 
         # Qualitative color scale
         if (!is.numeric(ColorVar[,c])){
-            colorList[[c]] <- defaultQualitativeScale(ColorVar, c)}
+            colorList[[c]] <- .defaultQualitativeScale(ColorVar, c)}
     }
     names(colorList) <- colnames(ColorVar)
     return(colorList)
 }
 
 
-defaultDivergentScale <- function(ColorVar, c){
+.defaultDivergentScale <- function(ColorVar, c){
     # Since we want to color scale to be symmetric, we set the
     # absolute min and max value to the same max absolute value
     max_absolute_value <- max(
@@ -99,7 +99,7 @@ defaultDivergentScale <- function(ColorVar, c){
     return(outList)
 }
 
-defaultSequentialScale <- function(ColorVar, c){
+.defaultSequentialScale <- function(ColorVar, c){
     outList <- list(
         ScaleName = colnames(ColorVar)[c],
         ScaleType = "Sequential",
@@ -120,7 +120,7 @@ defaultSequentialScale <- function(ColorVar, c){
     return(outList)
 }
 
-defaultQualitativeScale <- function(ColorVar, c){
+.defaultQualitativeScale <- function(ColorVar, c){
     if (length(unique(ColorVar[,c])) == 2){
         outList <- list(
             ScaleName = colnames(ColorVar)[c],

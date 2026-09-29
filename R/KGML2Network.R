@@ -38,6 +38,7 @@
 #'   Should unconnected (isolated) nodes be shown in the network?
 #' @param alpha (optional) Transparency of the nodes.
 #' @param nodeSize (optional) Size of the nodes.
+#' @param fontSize (optional) Font size of the text in the nodes.
 #' @param legend (optional) Logical (TRUE or FALSE).
 #'   Should the legend be plotted?
 #' @param nodeTable (optional) Logical (TRUE or FALSE).
@@ -81,8 +82,8 @@ KGML2Network <- function(
         infile,outdir=getwd(),outname=NULL,featureIDs=NULL,
         colorVar=NULL,annGenes=NULL,annMetabolites=NULL,inputDB=NULL,
         colorNames=NULL,colorList=NULL,NAvalue="#F0F0F0",layout="nicely",
-        unconnectedNodes=FALSE,alpha=0.9,nodeSize=1,legend=FALSE,
-        nodeTable=FALSE,pathInfo=FALSE,openFile=FALSE){
+        unconnectedNodes=FALSE,alpha=0.9,nodeSize=1,fontSize=2,
+        legend=FALSE,nodeTable=FALSE,pathInfo=FALSE,openFile=FALSE){
     # Read KGML file
     kgml <- XML::xmlToList(XML::xmlParse(infile))
 
@@ -105,7 +106,7 @@ KGML2Network <- function(
     # Make network
     g_plot <- .makeNetwork_KGML(
         relations_df, entries_df_split, unconnectedNodes, layout, nodeSize,
-        alpha)
+        fontSize, alpha)
     outfile <- .exportNetwork(g_plot, outdir, outname, nodeSize)
     outputList <- list()
     outputList[["Pathway"]] <- outfile
@@ -270,7 +271,7 @@ KGML2Network <- function(
 
 .makeNetwork_KGML <- function(
         relations_df, entries_df_split,
-        unconnectedNodes, layout, nodeSize, alpha){
+        unconnectedNodes, layout, nodeSize, fontSize, alpha){
     # Make graph
     graph <- igraph::graph_from_data_frame(
         relations_df,
@@ -304,10 +305,10 @@ KGML2Network <- function(
     # Finalize network
     g_plot <- g_plot +
         .geom_node_split(
-            linewidth = 0.3,
-            alpha = 0, color = "lightgrey",
+            linewidth = 0.3, alpha = 0, color = "lightgrey",
             nCol = 1, iCol = 1, nodeSize = nodeSize) +
-        ggraph::geom_node_text(ggplot2::aes(label = .data$name), size = 2) +
+        ggraph::geom_node_text(
+            ggplot2::aes(label = .data$name), size = fontSize) +
         ggplot2::theme_void() +
         ggplot2::theme(legend.position = "none")
     return(g_plot)

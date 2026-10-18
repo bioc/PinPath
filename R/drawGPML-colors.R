@@ -16,18 +16,22 @@
 #' @param colorList A list with information about the coloring of the nodes.
 #' An example can be generated using the defaultColorList() function.
 #' @param NAvalue Node color for NA color values.
+#' @param multiMapping If a node has multiple associated gene ids,
+#' should all associated values be plotted? If FALSE, only the first gene id
+#' is plotted.
 #' @return A data frame used for plotting colored nodes.
 #' @noRd
 
 .mapColors <- function(
-        nodes_df,
-        annGenes,
-        annMetabolites,
-        inputDB,
-        featureIDs,
-        colorVar,
-        colorList,
-        NAvalue){
+        nodes_df,annGenes,annMetabolites,inputDB,featureIDs,colorVar,
+        colorList,NAvalue,multiMapping){
+
+    # duplicated graph Ids?
+    dup_ids <- sum(duplicated(nodes_df$GraphId1)) > 0
+    if (dup_ids){
+        nodes_df$GraphId1_dup <- nodes_df$GraphId1
+        nodes_df$GraphId1 <- paste0(
+            nodes_df$GraphId1, "_", seq_len(nrow(nodes_df)))}
 
     # Get gene/protein/metabolite IDs of all nodes
     featureIDs_nodes <- nodes_df[,c("Database", "ID", "GraphId1")]
@@ -40,10 +44,16 @@
 
     # Add node annotation to the node graphical elements
     colors_df <- dplyr::left_join(nodes_df, nodeAnn_all, by = "GraphId1")
+    if (dup_ids){
+        colors_df <- dplyr::arrange(colors_df, by = .data$Scale)
+        colors_df$GraphId1 <- colors_df$GraphId1_dup}
 
     # If one node has at least 1 non-NA color value,
     # remove the NA values from different inputIds:
     colors_df <- .removeNAnodes(colors_df)
+    if (!multiMapping){
+        colors_df <- colors_df[!duplicated(
+            paste0(colors_df$GraphId1, "_", colors_df$Scale)),]}
 
     # If there are duplicated IDs, split the node into two parts for coloring
     colors_df <- .splitNode(colors_df)

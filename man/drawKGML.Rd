@@ -16,6 +16,7 @@ drawKGML(
   colorNames = NULL,
   colorList = NULL,
   NAvalue = "#F0F0F0",
+  multiMapping = TRUE,
   legend = FALSE,
   nodeTable = FALSE,
   pathInfo = FALSE,
@@ -46,7 +47,7 @@ of \code{length = 1} (if all gene IDs are of the same type) or of
 \code{length = nrow(featureIDs)} (if you want to specify the type per
 gene ID).}
 
-\item{featureIDs}{(optional) \code{character} vector of gene IDs.}
+\item{featureIDs}{(optional) \code{character} vector of feature IDs.}
 
 \item{colorVar}{(optional) \code{vector} or \code{data.frame} for
 coloring the nodes in the pathway. This can be for instance a
@@ -63,6 +64,11 @@ the nodes. An example can be generated using the \link{defaultColorList}
 function.}
 
 \item{NAvalue}{(optional) Node color for \code{NA} values.}
+
+\item{multiMapping}{(optional) Logical (TRUE or FALSE).
+If a node has multiple feature IDs, should all associated
+values be plotted? If FALSE, only the value of the first
+feature ID is plotted.}
 
 \item{legend}{(optional) Logical (TRUE or FALSE). Should the legend be
 plotted?}

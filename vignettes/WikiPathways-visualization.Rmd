@@ -124,11 +124,11 @@ pathVis <- PinPath::drawGPML(
 ```
 
 Pathway image:
-<img src="Pleural_mesothelioma_WP5087_r140461_Homo_sapiens.svg" 
+<img src="Pleural_mesothelioma_WP5087_r20260827113600_Homo_sapiens.svg" 
 width="1000">
 
 Legend image:
-<img src="legend_Pleural_mesothelioma_WP5087_r140461_Homo_sapiens.svg" 
+<img src="legend_Pleural_mesothelioma_WP5087_r20260827113600_Homo_sapiens.svg" 
 width="500">
 
 # Plot network
@@ -149,11 +149,11 @@ pathVis <- PinPath::GPML2Network(
 ```
 
 Network image:
-<img src="network_Pleural_mesothelioma_WP5087_r140461_Homo_sapiens.svg" 
+<img src="network_Pleural_mesothelioma_WP5087_r20260827113600_Homo_sapiens.svg" 
 width="1000">
 
 Legend image:
-<img src="legend_Pleural_mesothelioma_WP5087_r140461_Homo_sapiens.svg" 
+<img src="legend_Pleural_mesothelioma_WP5087_r20260827113600_Homo_sapiens.svg" 
 width="500">
 
 # Session info

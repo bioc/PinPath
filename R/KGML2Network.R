@@ -168,13 +168,12 @@ KGML2Network <- function(
             annMetabolites = data.frame(annMetabolites),
             inputDB = inputDB,
             colorList = colorList,
-            NAvalue = NAvalue)
+            NAvalue = NAvalue, multiMapping = TRUE)
 
         # Add colors to nodes
         entries_df <- dplyr::left_join(
-            entries_df,
-            colors_df[, c("GraphId1", "ColorValue","Scale")],
-            by = c("GraphId1" = "GraphId1"))
+            entries_df,colors_df[, c("GraphId1", "ColorValue","Scale")],
+            by = c("GraphId1" = "GraphId1"), relationship = "many-to-many")
     } else{
         colors_df <- NULL
         entries_df$ColorValue <- "white"
@@ -182,7 +181,9 @@ KGML2Network <- function(
     }
 
     # Change name
-    entries_df$name <- entries_df$ID
+    entries_df$name <- unlist(lapply(stringr::str_split(
+        entries_df$Names,","), function(x){
+            if(length(x) > 1){paste0(x[1], ",...")}else{x[1]}}))
     entries_df <- entries_df[, c("name", colnames(entries_df)[
         colnames(entries_df) != "name"])]
     entries_df <- entries_df[!is.na(entries_df$name),]
@@ -223,6 +224,7 @@ KGML2Network <- function(
 
 
 .splitEntries_network <- function(entries_df){
+
     # Collect NA and non-NA scales
     NAdf <- entries_df[is.na(entries_df$Scale),]
     nonNAdf <- entries_df[!is.na(entries_df$Scale),]
@@ -254,9 +256,9 @@ KGML2Network <- function(
                 !BiocGenerics::duplicated(entries_df_split[
                     ,(ncol(entries_df_split)-1):ncol(entries_df_split)
                 ])]))
-        if (dupIds > 0){warning(
-            "There duplicated feature IDs. The KGML2Network function
-                only plots the values associated with the first feature ID.")}
+        if (dupIds > 0){Biobase::note(
+            "There are duplicated feature IDs. The KGML2Network function
+only plots the values associated with the first feature ID.")}
     }
 
     if (length(scales) == 0){

@@ -16,6 +16,7 @@ drawGPML(
   colorNames = NULL,
   colorList = NULL,
   NAvalue = "#F0F0F0",
+  multiMapping = TRUE,
   legend = FALSE,
   nodeTable = FALSE,
   pathInfo = FALSE,
@@ -64,6 +65,11 @@ the nodes. An example can be generated using the \link{defaultColorList}
 function.}
 
 \item{NAvalue}{(optional) Node color for \code{NA} values.}
+
+\item{multiMapping}{(optional) Logical (TRUE or FALSE).
+If a node has multiple feature IDs, should all associated
+values be plotted? If FALSE, only the value of the first
+feature ID is plotted.}
 
 \item{legend}{(optional) Logical (TRUE or FALSE). Should the legend be
 plotted?}

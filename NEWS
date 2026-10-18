@@ -1,3 +1,7 @@
+Changes in version 0.99.6
++ Improved ID mapping for KEGG pathways.
++ Darker color palette for the default qualitative color scale.
+
 Changes in version 0.99.5
 + If all color gradients are the same, only one gradient will be plotted in the legend.
 + Font size of network diagrams can now be adjusted.

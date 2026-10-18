@@ -352,7 +352,7 @@ GPML2Network <- function(
             nodes_df = .prepareNodes(dataNodes), featureIDs = featureIDs,
             colorVar = colorVar, annGenes = annGenes,
             annMetabolites = data.frame(annMetabolites), inputDB = inputDB,
-            colorList = colorList,NAvalue = NAvalue)
+            colorList = colorList,NAvalue = NAvalue,multiMapping=TRUE)
         # Add colors to nodes
         nodes_df <- dplyr::left_join(
             nodes_df_temp, colors_df[, c("GraphId1", "ColorValue","Scale")],
@@ -461,10 +461,9 @@ GPML2Network <- function(
             BiocGenerics::duplicated(nodes_df_split$name[
                 !BiocGenerics::duplicated(
                     nodes_df_split[,9:ncol(nodes_df_split)])]))
-        if (dupIds > 0){
-            warning(
-                "There duplicated feature IDs. The GPML2Network function
-                only plots the values associated with the first feature ID.")
+        if (dupIds > 0){Biobase::note(
+            "There are duplicated feature IDs. The GPML2Network function
+only plots the values associated with the first feature ID.")
         }
     }
 
